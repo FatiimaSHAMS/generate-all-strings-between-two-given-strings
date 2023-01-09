@@ -1,7 +1,7 @@
 
 const submition = document.getElementById("submition")
 submition.innerHTML = ""
-function addOneToString(str, index) {
+function addOneToString(str, index,firstStr,lastStr) {
     if (index < 0) {
       return null;
     }
@@ -9,13 +9,12 @@ function addOneToString(str, index) {
     postfix = "";
     prefix = index > 0 ? str.substring(0, index) : "";
     postfix = index < (str.length - 1) ? str.substring(index + 1) : "";
-    if (str.charAt(index) < '~') {
+    if (str.charAt(index) < lastStr.charAt(index)) {
       middleChar = String.fromCharCode(str.charCodeAt(index) + 1)
       return prefix + middleChar + postfix;
     } else {
-      middleChar = "!";
-      return addOneToString(prefix + middleChar + postfix, index - 1);
-    }
+      middleChar = String.fromCharCode(firstStr.charCodeAt(index));
+      return addOneToString(prefix + middleChar + postfix, index - 1,firstStr,lastStr);    }
   }
 
   function calculate() {
@@ -27,10 +26,9 @@ function addOneToString(str, index) {
     
     while (newStr != null && newStr < str2) {
 
-      newStr = addOneToString(newStr, str1.length - 1);
-
+      newStr = addOneToString(newStr, str1.length - 1,str1,str2);
       
-      if (newStr != null && newStr < str2) { 
+      if (newStr != null && newStr <= str2) { 
         submition.append(` `);
         submition.append(newStr);
         submition.append(",");
